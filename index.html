@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamZone Radio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Inter', sans-serif;
+        }
+        .player-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .waveform {
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+            background-size: 400% 400%;
+            animation: gradient 3s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .concert-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio h-5 w-5 text-primary-foreground"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg> <span class="text-lg font-bold tracking-tight text-foreground">DreamZone<span class="text-primary"> Radio</span></span>
+                   <!--  <img src="https://via.placeholder.com/150x50/667eea/ffffff?text=DreamZone" alt="DreamZone Radio Logo" class="h-10"> -->
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="text-white hover:text-purple-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#schedule" class="text-white hover:text-purple-300 px-3 py-2 rounded-md text-sm font-medium">Schedule</a>
+                        <a href="#concerts" class="text-white hover:text-purple-300 px-3 py-2 rounded-md text-sm font-medium">Concerts</a>
+                        <a href="#events" class="text-white hover:text-purple-300 px-3 py-2 rounded-md text-sm font-medium">Events</a>
+                        <a href="#news" class="text-white hover:text-purple-300 px-3 py-2 rounded-md text-sm font-medium">News</a>
+                        <a href="#contact" class="text-white hover:text-purple-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white hover:text-purple-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden bg-black bg-opacity-90">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="text-white block px-3 py-2 text-base font-medium">Home</a>
+                <a href="#schedule" class="text-white block px-3 py-2 text-base font-medium">Schedule</a>
+                <a href="#concerts" class="text-white block px-3 py-2 text-base font-medium">Concerts</a>
+                <a href="#events" class="text-white block px-3 py-2 text-base font-medium">Events</a>
+                <a href="#news" class="text-white block px-3 py-2 text-base font-medium">News</a>
+                <a href="#contact" class="text-white block px-3 py-2 text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-20 pb-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-5xl lg:text-6xl font-bold mb-6">
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">DreamZone</span>
+                        <span class="text-white"> Radio</span>
+                    </h1>
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                        Your number one destination for the best music, entertainment, and community events.
+                        Tune in 24/7 for your favorite hits and discover new sounds.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="player-gradient px-8 py-3 rounded-full text-white font-semibold hover:opacity-90 transition-opacity">
+                            Listen Live
+                        </button>
+                        <button class="border border-white px-8 py-3 rounded-full text-white font-semibold hover:bg-white hover:text-purple-600 transition-colors">
+                            Explore Schedule
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="player-gradient rounded-3xl p-8 relative overflow-hidden">
+                        <div class="absolute inset-0 opacity-20">
+                            <div class="waveform absolute bottom-0 left-0 right-0 h-32"></div>
+                        </div>
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 id="current-song" class="text-2xl font-bold text-white">Loading...</h3>
+                                    <p id="current-artist" class="text-gray-200">Please wait</p>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio h-5 w-5 text-primary-foreground"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg> <span class="text-lg font-bold tracking-tight text-foreground">DreamZone<span class="text-primary"> Radio</span></span>
+                              <!--   <img id="station-logo" src="https://via.placeholder.com/60x60/ffffff/667eea?text=DZ" alt="Station Logo" class="w-15 h-15 rounded-full"> -->
+                            </div>
+                            <div class="flex items-center justify-between mb-6">
+                                <button class="text-white hover:text-purple-300">
+                                    <i class="fas fa-step-backward text-2xl"></i>
+                                </button>
+                                <button id="play-pause" class="player-gradient w-16 h-16 rounded-full flex items-center justify-center hover:opacity-90 transition-opacity">
+                                    <i class="fas fa-play text-white text-2xl"></i>
+                                </button>
+                                <button class="text-white hover:text-purple-300">
+                                    <i class="fas fa-step-forward text-2xl"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-sm text-gray-200">00:00</span>
+                                <div class="flex-1 bg-white bg-opacity-20 rounded-full h-2">
+                                    <div class="player-gradient h-2 rounded-full" style="width: 0%"></div>
+                                </div>
+                                <span class="text-sm text-gray-200">03:30</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="py-16 px-4 bg-black bg-opacity-30">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                Our Schedule
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Schedule items would be dynamically loaded here -->
+                <div class="bg-white bg-opacity-5 rounded-xl p-6 card-hover">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-music text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">Morning Vibes</h3>
+                            <p class="text-gray-300">6:00 AM - 10:00 AM</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">Start your day with the best hits and positive energy.</p>
+                </div>
+                <div class="bg-white bg-opacity-5 rounded-xl p-6 card-hover">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-sun text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">Midday Mix</h3>
+                            <p class="text-gray-300">10:00 AM - 2:00 PM</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">The perfect soundtrack for your workday.</p>
+                </div>
+                <div class="bg-white bg-opacity-5 rounded-xl p-6 card-hover">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-microphone text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">Evening Show</h3>
+                            <p class="text-gray-300">6:00 PM - 10:00 PM</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300">Unwind with our evening selection of music and talk.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concerts Section -->
+    <section id="concerts" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                Upcoming Concerts
+            </h2>
+            <div id="concerts-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Concerts will be loaded here from API -->
+                <!-- MODIFICATION: Fixed concert section logic bug - only show either concerts OR "no concerts" message -->
+                <div id="no-concerts-message" class="hidden text-center py-12">
+                    <i class="fas fa-guitar text-6xl text-gray-500 mb-4"></i>
+                    <h3 class="text-2xl font-semibold mb-2">No concerts found</h3>
+                    <p class="text-gray-400">Check back later for upcoming events!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Events Section -->
+    <section id="events" class="py-16 px-4 bg-black bg-opacity-30">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                Community Events
+            </h2>
+            <div id="community-events-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- MODIFICATION: Made Community Events admin-updatable by reusing Entertainment News logic -->
+                <!-- This follows the same pattern as Entertainment News section -->
+                <div class="bg-white bg-opacity-5 rounded-xl p-6 card-hover">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">Community Fair</h3>
+                            <p class="text-gray-300">June 15, 2023</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Join us for our annual community fair with food, music, and activities for all ages.</p>
+                    <!-- Admin edit button - follows same pattern as Entertainment News -->
+                    <button class="text-purple-400 hover:text-purple-300 text-sm flex items-center gap-2">
+                        <i class="fas fa-edit"></i> Edit Event
+                    </button>
+                </div>
+                <div class="bg-white bg-opacity-5 rounded-xl p-6 card-hover">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-hands-helping text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">Charity Run</h3>
+                            <p class="text-gray-300">July 22, 2023</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Participate in our 5K charity run to support local causes.</p>
+                    <button class="text-purple-400 hover:text-purple-300 text-sm flex items-center gap-2">
+                        <i class="fas fa-edit"></i> Edit Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Entertainment News Section -->
+    <section id="news" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                Entertainment News
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white bg-opacity-5 rounded-xl p-6 card-hover">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-newspaper text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">New Album Release</h3>
+                            <p class="text-gray-300">June 10, 2023</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Popular artist releases highly anticipated new album.</p>
+                    <button class="text-purple-400 hover:text-purple-300 text-sm flex items-center gap-2">
+                        <i class="fas fa-edit"></i> Edit News
+                    </button>
+                </div>
+                <div class="bg-white bg-opacity-5 rounded-xl p-6 card-hover">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-ticket-alt text-white"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold">Tour Announcement</h3>
+                            <p class="text-gray-300">June 5, 2023</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4">Major artist announces worldwide tour dates.</p>
+                    <button class="text-purple-400 hover:text-purple-300 text-sm flex items-center gap-2">
+                        <i class="fas fa-edit"></i> Edit News
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODIFICATION: Trending Artists Section - Commented out as requested -->
+    <!--
+    <section class="py-16 px-4 bg-black bg-opacity-30">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                Trending Artists
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <img src="https://via.placeholder.com/200x200/667eea/ffffff?text=Artist" alt="Artist" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover">
+                    <h3 class="text-xl font-semibold">Artist Name</h3>
+                    <p class="text-gray-400">Genre</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                Contact Us
+            </h2>
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="player-gradient rounded-3xl p-8">
+                    <h3 class="text-2xl font-bold mb-6">Get in Touch</h3>
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Name</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Message</label>
+                            <textarea rows="5" class="w-full px-4 py-3 rounded-lg bg-white bg-opacity-20 border border-white border-opacity-30 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400"></textarea>
+                        </div>
+                        <button type="submit" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-opacity">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Our Location</h3>
+                        <p class="text-gray-300 mb-4">123 Music Street, Radio City, RC 10001</p>
+                        <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215373510324!2d-73.9878449241642!3d40.7484409713896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+                                    width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-lg"></iframe>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Connect With Us</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors">
+                                <i class="fab fa-facebook-f text-blue-400"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors">
+                                <i class="fab fa-twitter text-blue-300"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors">
+                                <i class="fab fa-instagram text-pink-400"></i>
+                            </a>
+                            <a href="#" class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-colors">
+                                <i class="fab fa-youtube text-red-400"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-50 py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-radio h-5 w-5 text-primary-foreground"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg> <span class="text-lg font-bold tracking-tight text-foreground">DreamZone<span class="text-primary"> Radio</span></span>
+                    <!-- <img src="https://via.placeholder.com/150x50/667eea/ffffff?text=DreamZone" alt="DreamZone Radio Logo" class="h-10 mb-4"> -->
+                    <p class="text-gray-400">Your number one destination for the best music and entertainment.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#schedule" class="text-gray-400 hover:text-white">Schedule</a></li>
+                        <li><a href="#concerts" class="text-gray-400 hover:text-white">Concerts</a></li>
+                        <li><a href="#events" class="text-gray-400 hover:text-white">Events</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i> 123 Music Street, Radio City</li>
+                        <li class="text-gray-400"><i class="fas fa-phone mr-2"></i> (123) 456-7890</li>
+                        <li class="text-gray-400"><i class="fas fa-envelope mr-2"></i> info@dreamzoneradio.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 DreamZone Radio. All rights reserved By Zannatul.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Player -->
+    <audio id="audio-player" src="https://stream.dreamzoneradio.com/stream" preload="auto"></audio>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Audio player functionality
+        const audioPlayer = document.getElementById('audio-player');
+        const playPauseBtn = document.getElementById('play-pause');
+        const currentSongEl = document.getElementById('current-song');
+        const currentArtistEl = document.getElementById('current-artist');
+        const stationLogoEl = document.getElementById('station-logo');
+
+        // MODIFICATION: Bluetooth Media Metadata Fix - CRITICAL
+        // Implement Media Session API for Bluetooth metadata
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: 'Loading...',
+                artist: 'DreamZone Radio',
+                album: 'DreamZone Radio',
+                artwork: [
+                    { src: 'https://via.placeholder.com/96x96/667eea/ffffff?text=DZ', sizes: '96x96', type: 'image/png' },
+                    { src: 'https://via.placeholder.com/128x128/667eea/ffffff?text=DZ', sizes: '128x128', type: 'image/png' },
+                    { src: 'https://via.placeholder.com/192x192/667eea/ffffff?text=DZ', sizes: '192x192', type: 'image/png' },
+                    { src: 'https://via.placeholder.com/256x256/667eea/ffffff?text=DZ', sizes: '256x256', type: 'image/png' },
+                    { src: 'https://via.placeholder.com/384x384/667eea/ffffff?text=DZ', sizes: '384x384', type: 'image/png' },
+                    { src: 'https://via.placeholder.com/512x512/667eea/ffffff?text=DZ', sizes: '512x512', type: 'image/png' }
+                ]
+            });
+
+            // Update media session when song changes
+            function updateMediaSession(title, artist) {
+                navigator.mediaSession.metadata.title = title;
+                navigator.mediaSession.metadata.artist = artist;
+                navigator.mediaSession.metadata.album = 'DreamZone Radio';
+
+                // Update artwork to include current song info
+                const artwork = [
+                    { src: `https://via.placeholder.com/96x96/667eea/ffffff?text=${encodeURIComponent(title.substring(0, 2))}`, sizes: '96x96', type: 'image/png' },
+                    { src: `https://via.placeholder.com/128x128/667eea/ffffff?text=${encodeURIComponent(title.substring(0, 2))}`, sizes: '128x128', type: 'image/png' },
+                    { src: `https://via.placeholder.com/192x192/667eea/ffffff?text=${encodeURIComponent(title.substring(0, 2))}`, sizes: '192x192', type: 'image/png' },
+                    { src: `https://via.placeholder.com/256x256/667eea/ffffff?text=${encodeURIComponent(title.substring(0, 2))}`, sizes: '256x256', type: 'image/png' },
+                    { src: `https://via.placeholder.com/384x384/667eea/ffffff?text=${encodeURIComponent(title.substring(0, 2))}`, sizes: '384x384', type: 'image/png' },
+                    { src: `https://via.placeholder.com/512x512/667eea/ffffff?text=${encodeURIComponent(title.substring(0, 2))}`, sizes: '512x512', type: 'image/png' }
+                ];
+
+                navigator.mediaSession.metadata.artwork = artwork;
+            }
+        }
+
+        // Simulate song changes (in a real app, this would come from the streaming server)
+        let currentSongIndex = 0;
+        const songs = [
+            { title: 'Summer Vibes', artist: 'The Beach Boys' },
+            { title: 'Electric Dreams', artist: 'Daft Punk' },
+            { title: 'Midnight City', artist: 'M83' },
+            { title: 'Blinding Lights', artist: 'The Weeknd' },
+            { title: 'Levitating', artist: 'Dua Lipa' }
+        ];
+
+        function updateCurrentSong() {
+            const song = songs[currentSongIndex];
+            currentSongEl.textContent = song.title;
+            currentArtistEl.textContent = song.artist;
+
+            // MODIFICATION: Update Bluetooth metadata when song changes
+            if ('mediaSession' in navigator) {
+                updateMediaSession(song.title, song.artist);
+            }
+
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+        }
+
+        // Update song every 30 seconds (simulating real radio)
+        setInterval(updateCurrentSong, 30000);
+        updateCurrentSong(); // Initial update
+
+        playPauseBtn.addEventListener('click', function() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause text-white text-2xl"></i>';
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'playing';
+                }
+            } else {
+                audioPlayer.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play text-white text-2xl"></i>';
+                if ('mediaSession' in navigator) {
+                    navigator.mediaSession.playbackState = 'paused';
+                }
+            }
+        });
+
+        // Concerts data simulation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate API call for concerts
+            setTimeout(function() {
+                const concerts = [
+                    {
+                        id: 1,
+                        title: 'Summer Music Festival',
+                        date: 'July 15, 2023',
+                        location: 'Central Park, NYC',
+                        image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?text=Festival'
+                    },
+                    {
+                        id: 2,
+                        title: 'Rock Legends Tour',
+                        date: 'August 5, 2023',
+                        location: 'Madison Square Garden',
+                        image: 'https://i.postimg.cc/6QVrWF5L/Current-Show.png?text=Rock'
+                    },
+                    {
+                        id: 3,
+                        title: 'Electronic Beats',
+                        date: 'September 10, 2023',
+                        location: 'Brooklyn Warehouse',
+                        image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?text=EDM'
+                    }
+                ];
+
+                const concertsContainer = document.getElementById('concerts-container');
+                const noConcertsMessage = document.getElementById('no-concerts-message');
+
+                // MODIFICATION: Fixed concert section logic bug - only show either concerts OR message
+                if (concerts.length > 0) {
+                    noConcertsMessage.classList.add('hidden');
+                    concerts.forEach(concert => {
+                        const concertCard = document.createElement('div');
+                        concertCard.className = 'concert-card rounded-xl overflow-hidden card-hover';
+                        concertCard.innerHTML = `
+                            <img src="${concert.image}" alt="${concert.title}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2">${concert.title}</h3>
+                                <p class="text-gray-300 mb-1"><i class="fas fa-calendar mr-2"></i>${concert.date}</p>
+                                <p class="text-gray-300 mb-4"><i class="fas fa-map-marker-alt mr-2"></i>${concert.location}</p>
+                                <button class="player-gradient px-6 py-2 rounded-full text-white font-semibold hover:opacity-90 transition-opacity">
+                                    Get Tickets
+                                </button>
+                            </div>
+                        `;
+                        concertsContainer.appendChild(concertCard);
+                    });
+                } else {
+                    noConcertsMessage.classList.remove('hidden');
+                }
+            }, 1000);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+                // Close mobile menu if open
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
